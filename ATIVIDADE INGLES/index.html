@@ -1,0 +1,435 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Adventure Quest</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+min-height:100vh;
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+width:800px;
+max-width:100%;
+background:white;
+border-radius:20px;
+padding:30px;
+box-shadow:0 0 30px rgba(0,0,0,.4);
+}
+
+h1{
+text-align:center;
+color:#1e3a8a;
+margin-bottom:20px;
+}
+
+.menu button,
+.answer,
+#nextBtn{
+width:100%;
+padding:14px;
+margin:8px 0;
+border:none;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+transition:.3s;
+}
+
+.menu button:hover,
+.answer:hover{
+transform:scale(1.02);
+}
+
+.easy{background:#22c55e;color:white;}
+.medium{background:#facc15;}
+.hard{background:#ef4444;color:white;}
+
+.answer{
+background:#2563eb;
+color:white;
+}
+
+.correct{
+background:#16a34a !important;
+}
+
+.wrong{
+background:#dc2626 !important;
+}
+
+.hidden{
+display:none;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-weight:bold;
+font-size:18px;
+}
+
+.progress{
+height:20px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#22c55e;
+transition:.5s;
+}
+
+.question{
+font-size:24px;
+margin-bottom:15px;
+text-align:center;
+}
+
+#nextBtn{
+background:#7c3aed;
+color:white;
+}
+
+.result{
+text-align:center;
+}
+
+.result h2{
+margin:20px 0;
+}
+
+.medal{
+font-size:70px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div id="menu" class="menu">
+
+<h1>🏆 English Adventure Quest</h1>
+
+<p style="text-align:center;margin-bottom:15px;">
+Choose your difficulty
+</p>
+
+<button class="easy" onclick="startGame('easy')">
+🟢 Easy
+</button>
+
+<button class="medium" onclick="startGame('medium')">
+🟡 Medium
+</button>
+
+<button class="hard" onclick="startGame('hard')">
+🔴 Hard
+</button>
+
+</div>
+
+<div id="game" class="hidden">
+
+<div class="top">
+<div id="lives">❤️❤️❤️</div>
+<div id="score">⭐ 0</div>
+<div id="timer">⏰ 30</div>
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="bar"></div>
+</div>
+
+<div class="question" id="question"></div>
+
+<div id="answers"></div>
+
+<button id="nextBtn" class="hidden">
+Next Question
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const data = {
+
+easy:[
+{
+q:"Dog means?",
+a:["Gato","Cachorro","Passaro","Peixe"],
+c:1
+},
+{
+q:"Blue is a...",
+a:["Color","Animal","Food","Country"],
+c:0
+},
+{
+q:"Good Morning means...",
+a:["Boa Noite","Bom Dia","Tchau","Boa Tarde"],
+c:1
+}
+],
+
+medium:[
+{
+q:"I ___ a student.",
+a:["is","am","are","be"],
+c:1
+},
+{
+q:"She ___ to school.",
+a:["go","goes","going","gone"],
+c:1
+},
+{
+q:"Apple is a...",
+a:["Fruit","Animal","City","Car"],
+c:0
+}
+],
+
+hard:[
+{
+q:"Past tense of GO?",
+a:["Goed","Gone","Went","Going"],
+c:2
+},
+{
+q:"If I ___ rich, I would travel.",
+a:["am","was","were","be"],
+c:2
+},
+{
+q:"Choose the correct sentence:",
+a:[
+"They have a car",
+"They has a car",
+"They haves a car",
+"They having a car"
+],
+c:0
+}
+]
+
+};
+
+let difficulty="";
+let current=0;
+let score=0;
+let lives=3;
+let time=30;
+let timer;
+
+function startGame(level){
+
+difficulty=level;
+current=0;
+score=0;
+lives=3;
+time=30;
+
+document.getElementById("menu")
+.classList.add("hidden");
+
+document.getElementById("game")
+.classList.remove("hidden");
+
+loadQuestion();
+startTimer();
+}
+
+function startTimer(){
+
+clearInterval(timer);
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("timer")
+.innerHTML="⏰ "+time;
+
+if(time<=0){
+
+clearInterval(timer);
+finishGame();
+
+}
+
+},1000);
+
+}
+
+function loadQuestion(){
+
+document.getElementById("nextBtn")
+.classList.add("hidden");
+
+let q=data[difficulty][current];
+
+document.getElementById("question")
+.innerText=q.q;
+
+let answers=document.getElementById("answers");
+
+answers.innerHTML="";
+
+q.a.forEach((option,index)=>{
+
+let btn=document.createElement("button");
+
+btn.className="answer";
+
+btn.innerText=option;
+
+btn.onclick=()=>checkAnswer(index);
+
+answers.appendChild(btn);
+
+});
+
+updateBar();
+}
+
+function checkAnswer(selected){
+
+let q=data[difficulty][current];
+
+let buttons=document.querySelectorAll(".answer");
+
+buttons.forEach(btn=>btn.disabled=true);
+
+if(selected===q.c){
+
+buttons[selected].classList.add("correct");
+
+score +=
+difficulty==="easy" ? 10 :
+difficulty==="medium" ? 15 : 20;
+
+}else{
+
+buttons[selected].classList.add("wrong");
+
+buttons[q.c].classList.add("correct");
+
+lives--;
+
+document.getElementById("lives")
+.innerHTML="❤️".repeat(lives);
+
+if(lives<=0){
+
+finishGame();
+return;
+
+}
+
+}
+
+document.getElementById("score")
+.innerHTML="⭐ "+score;
+
+document.getElementById("nextBtn")
+.classList.remove("hidden");
+}
+
+document.getElementById("nextBtn")
+.onclick=()=>{
+
+current++;
+
+if(current<data[difficulty].length){
+
+loadQuestion();
+
+}else{
+
+finishGame();
+
+}
+
+};
+
+function updateBar(){
+
+let total=data[difficulty].length;
+
+let percent=((current+1)/total)*100;
+
+document.getElementById("bar")
+.style.width=percent+"%";
+}
+
+function finishGame(){
+
+clearInterval(timer);
+
+let medal="🥉 Bronze";
+
+if(score>=30) medal="🥈 Silver";
+if(score>=50) medal="🥇 Gold";
+
+document.querySelector(".container")
+.innerHTML=`
+
+<div class="result">
+
+<h1>🏆 Adventure Finished!</h1>
+
+<div class="medal">${medal}</div>
+
+<h2>Final Score: ${score}</h2>
+
+<p>Time Remaining: ${time}s</p>
+
+<br>
+
+<button onclick="location.reload()"
+style="
+padding:15px 30px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+">
+Play Again
+</button>
+
+</div>
+
+`;
+}
+
+</script>
+
+</body>
+</html>
+```
