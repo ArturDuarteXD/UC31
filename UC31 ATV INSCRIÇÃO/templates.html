@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição - Campeonato de Games</title>
+</head>
+<body>
+
+<div class="container">
+    <h2>Inscrição do Campeonato</h2>
+    
+    <form method="POST">
+        <div class="campo">
+            <label for="nickname">Nickname (mínimo 4 caracteres):</label>
+            <input type="text" id="nickname" name="nickname">
+        </div>
+
+        <div class="campo">
+            <label for="jogo">Jogo Escolhido:</label>
+            <select id="jogo" name="jogo">
+                <option value="">-- Selecione --</option>
+                <option value="League of Legends">League of Legends</option>
+                <option value="Valorant">Valorant</option>
+                <option value="Counter-Strike 2">Counter-Strike 2</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email">
+        </div>
+
+        <button type="submit">Enviar Inscrição</button>
+    </form>
+</div>
+
+</body>
+</html>
