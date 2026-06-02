@@ -21,5 +21,18 @@ def inscricao():
 
     return render_template("index.html", mensagem=mensagem, sucesso=sucesso)
 
+#Atividade de dia 02/06/2026
+@app.route('/validacao', methods=["POST"])
+def cadastro():
+    nome = request.form.get("nome", "").strip().title()
+    email = request.form.get("email", "").strip().lower()
+    cidade = request.form.get("cidade", "").strip().title()
+
+    return f"""
+    nome: {nome}<br>
+    email: {email}<br>
+    cidade: {cidade}
+    """
+
 if __name__ == "__main__":
     app.run(debug=True)

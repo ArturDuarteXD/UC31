@@ -20,9 +20,9 @@
             <label for="jogo">Jogo Escolhido:</label>
             <select id="jogo" name="jogo">
                 <option value="">-- Selecione --</option>
-                <option value="Crossfire">Crossfire</option>
-                <option value="Minecraft">Minecraft</option>
-                <option value="Team Fortress 2">Team Fortress 2</option>
+                <option value="League of Legends">League of Legends</option>
+                <option value="Valorant">Valorant</option>
+                <option value="Counter-Strike 2">Counter-Strike 2</option>
             </select>
         </div>
 
@@ -32,6 +32,21 @@
         </div>
 
         <button type="submit">Enviar Inscrição</button>
+
+
+        <h1> Formulário de cadastro</h1>
+        <form action="/validacao" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome">
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade">
+
+            <button type="submit">Enviar Cadastro</button>
+        </form>
     </form>
 </div>
 
