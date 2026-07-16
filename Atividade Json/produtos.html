@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>lista de produtos</h1>
+
+    (% for produtos in produtos %)
+        <h3>{{ produtos.nome }}</h3>
+        <p> preço : R$ {{ produtos.preco}}</p>
+        <p> estoque : {{produtos.estoque}}</p>
+
+        <hr>
+    (% endfor %)
+</body> 
+    
+</body>
+</html>
