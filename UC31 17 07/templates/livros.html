@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca - Listagem</title>
+</head>
+<body>
+    <h1>Livros Cadastrados</h1>
+
+    <!-- Condicional para verificar se o banco de dados está vazio -->
+    {% if livros_cadastrados|length == 0 %}
+        <p>Nenhum livro cadastrado.</p>
+    {% else %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Ano</th>
+                    <th>Categoria</th>
+                    <th>Quantidade Disponível</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- loop.index0 captura a posição numérica do item na lista (0, 1, 2...) -->
+                {% for livro in livros_cadastrados %}
+                <tr>
+                    <td>{{ livro.titulo }}</td>
+                    <td>{{ livro.autor }}</td>
+                    <td>{{ livro.ano }}</td>
+                    <td>{{ livro.categoria }}</td>
+                    <td>{{ livro.quantidade }}</td>
+                    <td>
+                        <a href="{{ url_for('editar', indice=loop.index0) }}">Editar</a> | 
+                        <a href="{{ url_for('excluir', indice=loop.index0) }}">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <br>
+    <nav>
+        <a href="/">Cadastrar novo livro</a> | 
+        <a href="/buscar">Pesquisar livro</a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca - Pesquisa</title>
+</head>
+<body>
+    <h1>Buscar Livro por Título</h1>
+
+    <form action="/buscar" method="POST">
+        <input type="text" name="busca" placeholder="Digite o título do livro..." required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <br>
+    {% if mensagem_erro %}
+        <p style="color: orange;">{{ mensagem_erro }}</p>
+    {% endif %}
+
+    <!-- Mostra o bloco de informações apenas se um livro foi retornado -->
+    {% if livro_encontrado %}
+        <fieldset>
+            <legend>Resultado da busca:</legend>
+            <p><strong>Título:</strong> {{ livro_encontrado.titulo }}</p>
+            <p><strong>Autor:</strong> {{ livro_encontrado.autor }}</p>
+            <p><strong>Ano:</strong> {{ livro_encontrado.ano }}</p>
+            <p><strong>Categoria:</strong> {{ livro_encontrado.categoria }}</p>
+            <p><strong>Quantidade:</strong> {{ livro_encontrado.quantidade }}</p>
+        </fieldset>
+    {% endif %}
+
+    <br>
+    <nav>
+        <a href="/livros">Voltar para a listagem</a> | 
+        <a href="/">Cadastrar novo livro</a>
+    </nav>
+</body>
+</html>

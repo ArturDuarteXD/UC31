@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca - Editar Cadastro</title>
+</head>
+<body>
+    <h1>Editar Dados do Livro</h1>
+
+    {% if erro_mensagem %}
+        <p style="color: red;"><strong>Erro:</strong> {{ erro_mensagem }}</p>
+    {% endif %}
+
+    <!-- O formulário envia a requisição de volta para a rota dinâmica contendo o id do livro -->
+    <form action="{{ url_for('editar', indice=id_livro) }}" method="POST">
+        <p>Título: <input type="text" name="titulo" value="{{ livro.titulo }}"></p>
+        <p>Autor: <input type="text" name="autor" value="{{ livro.autor }}"></p>
+        <p>Ano: <input type="text" name="ano" value="{{ livro.ano }}"></p>
+        <p>Categoria: <input type="text" name="categoria" value="{{ livro.categoria }}"></p>
+        <p>Quantidade: <input type="number" name="quantidade" value="{{ livro.quantidade }}"></p>
+        <button type="submit">Salvar Alterações</button>
+    </form>
+
+    <br>
+    <a href="/livros">Cancelar e voltar</a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Livros</title>
+</head>
+<body>
+    <h1>Cadastrar Novo Livro</h1>
+    
+    <!-- Exibe mensagens de erro de validação caso existam -->
+    {% if erro_mensagem %}
+        <p style="color: red;"><strong>Erro:</strong> {{ erro_mensagem }}</p>
+    {% endif %}
+
+    <form action="/" method="POST">
+        <p>Título: <input type="text" name="titulo"></p>
+        <p>Autor: <input type="text" name="autor"></p>
+        <p>Ano de Publicação: <input type="text" name="ano"></p>
+        <p>Categoria: <input type="text" name="categoria"></p>
+        <p>Quantidade: <input type="number" name="quantidade"></p>
+        <button type="submit">Cadastrar Livro</button>
+    </form>
+    
+    <br>
+    <nav>
+        <a href="/livros">Ver todos os livros</a> | 
+        <a href="/buscar">Pesquisar livro</a>
+    </nav>
+
+    <!-- Sessão Adicional Vazia Solicitada -->
+    <hr>
+    <h3>Sessão Especial IA</h3>
+    <div></div>
+</body>
+</html>
